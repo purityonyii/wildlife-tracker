@@ -5,24 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wildlife Sighting Tracker</title>
 
-  <!-- External CSS -->
+  <!-- I linked my external CSS file here -->
+  <!-- I placed the CSS file inside the public/css folder -->
   <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
 
-  <!-- Page Header -->
+  <!-- This is the page header where I display my name and project title -->
   <header class="site-header">
-    <h1> Onyinyechi Rita Ngaokere</h1>
+    <h1>Onyinyechi Rita Ngaokere</h1>
     <h2>Wildlife Sighting Tracker</h2>
   </header>
 
-  <!-- Main Content -->
+  <!-- This is the main content area of my page -->
   <main>
 
     <!-- About Me Section -->
+    <!-- I used this section to introduce myself -->
     <section>
       <h3>About Me</h3>
+
+      <!-- I added my photo here -->
+      <!-- The image file is stored inside the public/images folder -->
       <img src="/images/your-photo.jpg" alt="Photo of Rita Onyinyechi Ngaokere" width="200" />
+
       <p>
         I am a Computer Programming student at Seneca College with an interest in
         web development and backend technologies. I enjoy learning how to build
@@ -31,16 +37,18 @@
     </section>
 
     <!-- Project Description Section -->
+    <!-- I used this section to explain what my project does -->
     <section>
       <h3>Project Description</h3>
       <p>
         This Wildlife Sighting Tracker is a web application built using Express.js.
-        It loads wildlife observation data from a JSON file and  it provides  an API
+        It loads wildlife observation data from a JSON file and it provides API
         endpoints to view, filter, and search wildlife sightings.
       </p>
     </section>
 
     <!-- API Endpoints Section -->
+    <!-- I listed all the API endpoints that my server provides -->
     <section>
       <h3>API Endpoints</h3>
       <ul>
@@ -57,13 +65,16 @@
   </main>
 
   <!-- Footer -->
+  <!-- I used the footer to show my name and the current date -->
   <footer>
     <p>
-      Created by  Onyinyechi  Rita Ngaokere |
+      Created by Onyinyechi Rita Ngaokere |
       <span id="date"></span>
     </p>
   </footer>
 
+  <!-- Script -->
+  <!-- I used this script to automatically display today’s date -->
   <script>
     document.getElementById("date").textContent =
       new Date().toLocaleDateString();
