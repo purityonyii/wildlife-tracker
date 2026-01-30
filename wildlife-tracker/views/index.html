@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wildlife Sighting Tracker</title>
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+  <!-- Page Header -->
+  <header class="site-header">
+    <h1> Onyinyechi Rita Ngaokere</h1>
+    <h2>Wildlife Sighting Tracker</h2>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+
+    <!-- About Me Section -->
+    <section>
+      <h3>About Me</h3>
+      <img src="/images/your-photo.jpg" alt="Photo of Rita Onyinyechi Ngaokere" width="200" />
+      <p>
+        I am a Computer Programming student at Seneca College with an interest in
+        web development and backend technologies. I enjoy learning how to build
+        applications that work with real data.
+      </p>
+    </section>
+
+    <!-- Project Description Section -->
+    <section>
+      <h3>Project Description</h3>
+      <p>
+        This Wildlife Sighting Tracker is a web application built using Express.js.
+        It loads wildlife observation data from a JSON file and  it provides  an API
+        endpoints to view, filter, and search wildlife sightings.
+      </p>
+    </section>
+
+    <!-- API Endpoints Section -->
+    <section>
+      <h3>API Endpoints</h3>
+      <ul>
+        <li><strong>GET /api/sightings</strong> – Get all sightings</li>
+        <li><strong>GET /api/sightings/verified</strong> – Get verified sightings</li>
+        <li><strong>GET /api/sightings/species-list</strong> – Get unique species list</li>
+        <li><strong>GET /api/sightings/habitat/forest</strong> – Get forest sightings</li>
+        <li><strong>GET /api/sightings/search/eagle</strong> – Search for eagle sightings</li>
+        <li><strong>GET /api/sightings/find-index/moose</strong> – Find index of Moose</li>
+        <li><strong>GET /api/sightings/recent</strong> – Get 3 most recent sightings</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>
+      Created by  Onyinyechi  Rita Ngaokere |
+      <span id="date"></span>
+    </p>
+  </footer>
+
+  <script>
+    document.getElementById("date").textContent =
+      new Date().toLocaleDateString();
+  </script>
+
+</body>
+</html>

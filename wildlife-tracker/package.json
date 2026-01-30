@@ -1,0 +1,17 @@
+{
+  "name": "wildlife-tracker",
+  "version": "1.0.0",
+  "description": "WEB322 Assignment 01 - Wildlife Sighting Tracker",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Rita Onyinyechi Ngaokere",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
+
