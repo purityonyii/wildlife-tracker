@@ -25,7 +25,10 @@ const fs = require("fs");
 const { loadSightings } = require("./utils/dataLoader");
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+
+// I used process.env.PORT for deployment and I kept a local fallback
+// (I changed the local fallback to 3000 because it's the common default)
+const PORT = process.env.PORT || 3000;
 
 // I used this to serve all static assets like CSS and images
 app.use(express.static(path.join(__dirname, "public")));
@@ -82,9 +85,7 @@ app.get("/api/sightings/species-list", async (req, res) => {
 app.get("/api/sightings/habitat/forest", async (req, res) => {
   try {
     const sightings = await loadSightings();
-    const forestSightings = sightings.filter(
-      (s) => s.habitat === "forest"
-    );
+    const forestSightings = sightings.filter((s) => s.habitat === "forest");
 
     res.json({
       habitat: "forest",
