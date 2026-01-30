@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // When the user visits the root URL, I send the main index.html page
 app.get("/", (req, res) => {
-  const filePath = path.join(__dirname, "views", "index.html");
+  const filePath = path.join(__dirname, "public", "index.html");
 
   // I added this check to help me debug path issues if the file is missing
   if (!fs.existsSync(filePath)) {
@@ -51,7 +51,7 @@ app.get("/", (req, res) => {
 // -------------------- API ROUTES --------------------
 
 // I created this route to return all wildlife sightings
-app.get("/api/sightings", async (req, res) => {
+app.get("/sightings", async (req, res) => {
   try {
     const sightings = await loadSightings();
     res.json(sightings);
@@ -61,7 +61,7 @@ app.get("/api/sightings", async (req, res) => {
 });
 
 // I used this route to return only verified sightings
-app.get("/api/sightings/verified", async (req, res) => {
+app.get("/sightings/verified", async (req, res) => {
   try {
     const sightings = await loadSightings();
     res.json(sightings.filter((s) => s.verified === true));
@@ -71,7 +71,7 @@ app.get("/api/sightings/verified", async (req, res) => {
 });
 
 // I created this route to generate a unique list of species
-app.get("/api/sightings/species-list", async (req, res) => {
+app.get("/sightings/species-list", async (req, res) => {
   try {
     const sightings = await loadSightings();
     const speciesNames = sightings.map((s) => s.species);
@@ -82,7 +82,7 @@ app.get("/api/sightings/species-list", async (req, res) => {
 });
 
 // I filtered sightings by forest habitat and returned the count
-app.get("/api/sightings/habitat/forest", async (req, res) => {
+app.get("/sightings/habitat/forest", async (req, res) => {
   try {
     const sightings = await loadSightings();
     const forestSightings = sightings.filter((s) => s.habitat === "forest");
@@ -98,7 +98,7 @@ app.get("/api/sightings/habitat/forest", async (req, res) => {
 });
 
 // I searched for an eagle sighting using a case-insensitive match
-app.get("/api/sightings/search/eagle", async (req, res) => {
+app.get("/sightings/search/eagle", async (req, res) => {
   try {
     const sightings = await loadSightings();
     const found = sightings.find((s) =>
@@ -118,7 +118,7 @@ app.get("/api/sightings/search/eagle", async (req, res) => {
 });
 
 // I used this route to find the index position of a Moose sighting
-app.get("/api/sightings/find-index/moose", async (req, res) => {
+app.get("/sightings/find-index/moose", async (req, res) => {
   try {
     const sightings = await loadSightings();
     const idx = sightings.findIndex((s) => s.species === "Moose");
@@ -140,7 +140,7 @@ app.get("/api/sightings/find-index/moose", async (req, res) => {
 });
 
 // I sorted the sightings by date and returned the 3 most recent ones
-app.get("/api/sightings/recent", async (req, res) => {
+app.get("/sightings/recent", async (req, res) => {
   try {
     const sightings = await loadSightings();
 
