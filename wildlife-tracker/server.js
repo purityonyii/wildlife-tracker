@@ -1,12 +1,21 @@
 /********************************************************************************
 * WEB322 - Assignment 01
 *
-* I declare that this assignment is my own work in accordance with Seneca's
-* Academic Integrity Policy:
+* I declare that this assignment is my own work in accordance with Seneca
+* Polytechnic’s Academic Integrity Policy.
 *
 * https://www.senecapolytechnic.ca/about/policies/academic-integrity-policy.html
 *
-* Name: ______________________ Student ID: ______________ Date: ______________
+* Name: Onyinyechi Rita Ngaokere
+* Student ID: 173949231
+* Date: January 29, 2026
+*
+* What I did in this assignment:
+* - I created an Express server to serve static files and API endpoints.
+* - I used modular data loading by importing loadSightings from dataLoader.js.
+* - I implemented multiple REST API routes to filter, search, and sort wildlife data.
+* - I added proper error handling and a 404 route to handle invalid requests.
+* - I configured the app so it works both locally and on Vercel.
 *
 ********************************************************************************/
 
@@ -18,27 +27,27 @@ const { loadSightings } = require("./utils/dataLoader");
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Serve static files from public
+// I used this to serve all static assets like CSS and images
 app.use(express.static(path.join(__dirname, "public")));
 
-// Root route -> serve the about page
+// When the user visits the root URL, I send the main index.html page
 app.get("/", (req, res) => {
   const filePath = path.join(__dirname, "views", "index.html");
 
-  // this helps you catch the real problem (missing file / wrong folder)
+  // I added this check to help me debug path issues if the file is missing
   if (!fs.existsSync(filePath)) {
     console.log("ERROR: index.html not found at:", filePath);
     return res
       .status(500)
-      .send("index.html not found. Check your views folder/path.");
+      .send("index.html not found. Please check the views folder.");
   }
 
   res.sendFile(filePath);
 });
 
-// -------------------- API ENDPOINTS --------------------
+// -------------------- API ROUTES --------------------
 
-// Get all sightings
+// I created this route to return all wildlife sightings
 app.get("/api/sightings", async (req, res) => {
   try {
     const sightings = await loadSightings();
@@ -48,7 +57,7 @@ app.get("/api/sightings", async (req, res) => {
   }
 });
 
-// Verified sightings only
+// I used this route to return only verified sightings
 app.get("/api/sightings/verified", async (req, res) => {
   try {
     const sightings = await loadSightings();
@@ -58,7 +67,7 @@ app.get("/api/sightings/verified", async (req, res) => {
   }
 });
 
-// Unique species list
+// I created this route to generate a unique list of species
 app.get("/api/sightings/species-list", async (req, res) => {
   try {
     const sightings = await loadSightings();
@@ -69,18 +78,25 @@ app.get("/api/sightings/species-list", async (req, res) => {
   }
 });
 
-// Forest habitat + count
+// I filtered sightings by forest habitat and returned the count
 app.get("/api/sightings/habitat/forest", async (req, res) => {
   try {
     const sightings = await loadSightings();
-    const forestSightings = sightings.filter((s) => s.habitat === "forest");
-    res.json({ habitat: "forest", sightings: forestSightings, count: forestSightings.length });
+    const forestSightings = sightings.filter(
+      (s) => s.habitat === "forest"
+    );
+
+    res.json({
+      habitat: "forest",
+      sightings: forestSightings,
+      count: forestSightings.length,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Search eagle (case-insensitive)
+// I searched for an eagle sighting using a case-insensitive match
 app.get("/api/sightings/search/eagle", async (req, res) => {
   try {
     const sightings = await loadSightings();
@@ -88,35 +104,48 @@ app.get("/api/sightings/search/eagle", async (req, res) => {
       String(s.species).toLowerCase().includes("eagle")
     );
 
-    if (!found) return res.status(404).json({ message: "No eagle sighting found." });
+    if (!found) {
+      return res.status(404).json({
+        message: "No eagle sighting found.",
+      });
+    }
+
     res.json(found);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Find index moose
+// I used this route to find the index position of a Moose sighting
 app.get("/api/sightings/find-index/moose", async (req, res) => {
   try {
     const sightings = await loadSightings();
     const idx = sightings.findIndex((s) => s.species === "Moose");
 
-    if (idx === -1) return res.status(404).json({ index: -1, message: "Moose not found." });
+    if (idx === -1) {
+      return res.status(404).json({
+        index: -1,
+        message: "Moose not found.",
+      });
+    }
 
-    res.json({ index: idx, sighting: sightings[idx] });
+    res.json({
+      index: idx,
+      sighting: sightings[idx],
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Recent 3 sightings (your data has "date", so this is fine)
+// I sorted the sightings by date and returned the 3 most recent ones
 app.get("/api/sightings/recent", async (req, res) => {
   try {
     const sightings = await loadSightings();
 
-    const sorted = [...sightings].sort((a, b) => {
-      return new Date(b.date).getTime() - new Date(a.date).getTime();
-    });
+    const sorted = [...sightings].sort(
+      (a, b) => new Date(b.date) - new Date(a.date)
+    );
 
     const top3 = sorted.slice(0, 3).map((s) => ({
       id: s.id,
@@ -124,7 +153,7 @@ app.get("/api/sightings/recent", async (req, res) => {
       location: s.location,
       habitat: s.habitat,
       date: s.date,
-      verified: s.verified
+      verified: s.verified,
     }));
 
     res.json(top3);
@@ -133,12 +162,18 @@ app.get("/api/sightings/recent", async (req, res) => {
   }
 });
 
-// Basic 404 handler (helps debugging)
+// I added this to handle invalid routes and make debugging easier
 app.use((req, res) => {
   res.status(404).send("Route not found.");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log("Open:", `http://localhost:${PORT}/`);
-});
+// I exported the app so it works properly with Vercel
+module.exports = app;
+
+// I only start the server locally; Vercel handles it in production
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Open: http://localhost:${PORT}/`);
+  });
+}
