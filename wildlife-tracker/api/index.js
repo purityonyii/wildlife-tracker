@@ -1,6 +1,3 @@
-module.exports = (req, res) => {
-  res.status(200).json({
-    ok: true,
-    message: "API is working ✅"
-  });
-};
+// This file tells Vercel to run your Express app as a serverless function
+const app = require("../server");
+module.exports = app;
