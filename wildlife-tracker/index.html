@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wildlife Sighting Tracker</title>
+
+  <!-- I linked my external CSS file here -->
+  <!-- I placed the CSS file inside the public/css folder -->
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+  <!-- This is the page header where I display my name and project title -->
+  <header class="site-header">
+    <h1>Onyinyechi Rita Ngaokere</h1>
+    <h2>Wildlife Sighting Tracker</h2>
+  </header>
+
+  <!-- This is the main content area of my page -->
+  <main>
+
+    <!-- About Me Section -->
+    <!-- I used this section to introduce myself -->
+    <section>
+      <h3>About Me</h3>
+
+      <!-- I added my photo here -->
+      <!-- The image file is stored inside the public/images folder -->
+      <img src="/images/your-photo.jpg" alt="Photo of Rita Onyinyechi Ngaokere" width="200" />
+
+      <p>
+        I am a Computer Programming student at Seneca College with an interest in
+        web development and backend technologies. I enjoy learning how to build
+        applications that work with real data.
+      </p>
+    </section>
+
+    <!-- Project Description Section -->
+    <!-- I used this section to explain what my project does -->
+    <section>
+      <h3>Project Description</h3>
+      <p>
+        This Wildlife Sighting Tracker is a web application built using Express.js.
+        It loads wildlife observation data from a JSON file and it provides API
+        endpoints to view, filter, and search wildlife sightings.
+      </p>
+    </section>
+
+    <!-- API Endpoints Section -->
+    <!-- I listed all the API endpoints that my server provides -->
+    <section>
+      <h3>API Endpoints</h3>
+      <ul>
+        <li><strong>GET /api/sightings</strong> – Get all sightings</li>
+        <li><strong>GET /api/sightings/verified</strong> – Get verified sightings</li>
+        <li><strong>GET /api/sightings/species-list</strong> – Get unique species list</li>
+        <li><strong>GET /api/sightings/habitat/forest</strong> – Get forest sightings</li>
+        <li><strong>GET /api/sightings/search/eagle</strong> – Search for eagle sightings</li>
+        <li><strong>GET /api/sightings/find-index/moose</strong> – Find index of Moose</li>
+        <li><strong>GET /api/sightings/recent</strong> – Get 3 most recent sightings</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <!-- I used the footer to show my name and the current date -->
+  <footer>
+    <p>
+      Created by Onyinyechi Rita Ngaokere |
+      <span id="date"></span>
+    </p>
+  </footer>
+
+  <!-- Script -->
+  <!-- I used this script to automatically display today’s date -->
+  <script>
+    document.getElementById("date").textContent =
+      new Date().toLocaleDateString();
+  </script>
+
+</body>
+</html>
