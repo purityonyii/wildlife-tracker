@@ -1,11 +1,15 @@
+const express = require("express");
 const path = require("path");
-const app = require("../server");
 
-// Serve static files from public
-app.use(require("express").static(path.join(__dirname, "..", "public")));
+const app = express();
 
-// Fallback to index.html
+app.use(express.static(path.join(__dirname, "..", "public")));
+
 app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
+});
+
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "public", "index.html"));
 });
 
