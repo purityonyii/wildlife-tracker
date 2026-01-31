@@ -8,12 +8,18 @@ async function loadSightings() {
 
     const dataObj = JSON.parse(dataString);
 
-    // expects something like: { "sightings": [ ... ] }
-    if (!dataObj || !Array.isArray(dataObj.sightings)) {
-      throw new Error("Invalid sightings.json format: missing 'sightings' array");
+    // Accept BOTH formats:
+    // 1) [ ... ]
+    if (Array.isArray(dataObj)) {
+      return dataObj;
     }
 
-    return dataObj.sightings;
+    // 2) { "sightings": [ ... ] }
+    if (dataObj && Array.isArray(dataObj.sightings)) {
+      return dataObj.sightings;
+    }
+
+    throw new Error("Invalid sightings.json format: expected an array or an object with 'sightings' array");
   } catch (err) {
     console.error("loadSightings error:", err);
     throw new Error("Unable to load sightings data. Please try again later.");

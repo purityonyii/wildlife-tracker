@@ -35,14 +35,15 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // When the user visits the root URL, I send the main index.html page
 app.get("/", (req, res) => {
-  const filePath = path.join(__dirname, "public", "index.html");
+  // NOTE: the assignment wants the about page in the views folder
+  const filePath = path.join(__dirname, "views", "index.html");
 
   // I added this check to help me debug path issues if the file is missing
   if (!fs.existsSync(filePath)) {
-    console.log("ERROR: index.html not found at:", filePath);
+    console.log("ERROR: views/index.html not found at:", filePath);
     return res
       .status(500)
-      .send("index.html not found. Please check the views folder.");
+      .send("views/index.html not found. Please check the views folder.");
   }
 
   res.sendFile(filePath);
@@ -51,7 +52,7 @@ app.get("/", (req, res) => {
 // -------------------- API ROUTES --------------------
 
 // I created this route to return all wildlife sightings
-app.get("/sightings", async (req, res) => {
+app.get("/api/sightings", async (req, res) => {
   try {
     const sightings = await loadSightings();
     res.json(sightings);
@@ -61,7 +62,7 @@ app.get("/sightings", async (req, res) => {
 });
 
 // I used this route to return only verified sightings
-app.get("/sightings/verified", async (req, res) => {
+app.get("/api/sightings/verified", async (req, res) => {
   try {
     const sightings = await loadSightings();
     res.json(sightings.filter((s) => s.verified === true));
@@ -71,7 +72,7 @@ app.get("/sightings/verified", async (req, res) => {
 });
 
 // I created this route to generate a unique list of species
-app.get("/sightings/species-list", async (req, res) => {
+app.get("/api/sightings/species-list", async (req, res) => {
   try {
     const sightings = await loadSightings();
     const speciesNames = sightings.map((s) => s.species);
@@ -82,7 +83,7 @@ app.get("/sightings/species-list", async (req, res) => {
 });
 
 // I filtered sightings by forest habitat and returned the count
-app.get("/sightings/habitat/forest", async (req, res) => {
+app.get("/api/sightings/habitat/forest", async (req, res) => {
   try {
     const sightings = await loadSightings();
     const forestSightings = sightings.filter((s) => s.habitat === "forest");
@@ -98,7 +99,7 @@ app.get("/sightings/habitat/forest", async (req, res) => {
 });
 
 // I searched for an eagle sighting using a case-insensitive match
-app.get("/sightings/search/eagle", async (req, res) => {
+app.get("/api/sightings/search/eagle", async (req, res) => {
   try {
     const sightings = await loadSightings();
     const found = sightings.find((s) =>
@@ -118,7 +119,7 @@ app.get("/sightings/search/eagle", async (req, res) => {
 });
 
 // I used this route to find the index position of a Moose sighting
-app.get("/sightings/find-index/moose", async (req, res) => {
+app.get("/api/sightings/find-index/moose", async (req, res) => {
   try {
     const sightings = await loadSightings();
     const idx = sightings.findIndex((s) => s.species === "Moose");
@@ -140,13 +141,17 @@ app.get("/sightings/find-index/moose", async (req, res) => {
 });
 
 // I sorted the sightings by date and returned the 3 most recent ones
-app.get("/sightings/recent", async (req, res) => {
+app.get("/api/sightings/recent", async (req, res) => {
   try {
     const sightings = await loadSightings();
 
-    const sorted = [...sightings].sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
-    );
+    // NOTE: sorting by date only can miss correct ordering if time exists,
+    // so I included time too (fallback to 00:00 if time is missing)
+    const sorted = [...sightings].sort((a, b) => {
+      const aDT = new Date(`${a.date}T${a.time || "00:00"}`);
+      const bDT = new Date(`${b.date}T${b.time || "00:00"}`);
+      return bDT - aDT;
+    });
 
     const top3 = sorted.slice(0, 3).map((s) => ({
       id: s.id,
@@ -154,6 +159,7 @@ app.get("/sightings/recent", async (req, res) => {
       location: s.location,
       habitat: s.habitat,
       date: s.date,
+      time: s.time,
       verified: s.verified,
     }));
 
