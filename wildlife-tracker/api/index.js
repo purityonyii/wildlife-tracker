@@ -1,5 +1,12 @@
-// I made this file so Vercel can run my Express app as a serverless function
+const path = require("path");
 const app = require("../server");
 
-// I export my Express app so Vercel can use it
+// Serve static files from public
+app.use(require("express").static(path.join(__dirname, "..", "public")));
+
+// Fallback to index.html
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
+});
+
 module.exports = app;
